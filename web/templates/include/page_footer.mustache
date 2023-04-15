@@ -1,0 +1,19 @@
+			</div>
+			<div class="uoj-footer">
+				<div class="btn-group dropright mb-3">
+					<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-globe"></span>{{_COMMON_NAME}}
+					</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="<?= HTML::url(UOJContext::requestURI(), array('params' => array('locale' => 'zh-cn'))) ?>">中文</a>
+						<a class="dropdown-item" href="<?= HTML::url(UOJContext::requestURI(), array('params' => array('locale' => 'en'))) ?>">English</a>
+					</div>
+				</div>
+				
+				<ul class="list-inline"><li class="list-inline-item">{{OJ_NAME}}</li></ul>
+				<p>{{SERVER_TIME}}: {{now_time}} | <a href="https://github.com/ShanLunjiaJian/cruoj" target="_blank">{{OPENSOURCE_PROJECT}}</a></p>
+			</div>
+		</div>
+		<!-- /container -->
+	</body>
+</html>

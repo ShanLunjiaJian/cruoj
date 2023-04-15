@@ -1,0 +1,186 @@
+In file included from app/controller.cpp:2:
+app/db.h: In function 'void db_execute(std::string*)':
+app/db.h:23:40: error: request for member 'c_str' in 's', which is of pointer type 'std::string*' {aka 'std::__cxx11::basic_string<char>*'} (maybe you meant to use '->' ?)
+   23 |         auto *x=db->prepareStatement(s.c_str());
+      |                                        ^~~~~
+app/db.h:25:16: error: type '<type error>' argument given to 'delete', expected pointer
+   25 |         delete x;
+      |                ^
+app/controller.cpp: In lambda function:
+app/controller.cpp:13:37: error: request for member 'next' in 'r', which is of pointer type 'sql::ResultSet*' (maybe you meant to use '->' ?)
+   13 |         for(std::time_t post_time;r.next();)
+      |                                     ^~~~
+app/controller.cpp:14:23: error: 'res' was not declared in this scope
+   14 |             post_time=res->getInt("UNIX_TIMESTAMP(acquisitionDate)"),
+      |                       ^~~
+app/controller.cpp:17:24: error: request for member 'getString' in 'r', which is of pointer type 'sql::ResultSet*' (maybe you meant to use '->' ?)
+   17 |                     +r.getString("id")
+      |                        ^~~~~~~~~
+app/controller.cpp:19:24: error: request for member 'getString' in 'r', which is of pointer type 'sql::ResultSet*' (maybe you meant to use '->' ?)
+   19 |                     +r.getString("title")
+      |                        ^~~~~~~~~
+app/controller.cpp:21:29: error: too few arguments to function 'time_t time(time_t*)'
+   21 |                     +((time()-post_time)/3600/24<=7?"<sup style=\"color:red\">&nbsp;new</sup>":"")
+      |                             ^
+In file included from /usr/include/pthread.h:23,
+                 from /usr/include/x86_64-linux-gnu/c++/10/bits/gthr-default.h:35,
+                 from /usr/include/x86_64-linux-gnu/c++/10/bits/gthr.h:148,
+                 from /usr/include/c++/10/ext/atomicity.h:35,
+                 from /usr/include/c++/10/bits/basic_string.h:39,
+                 from /usr/include/c++/10/string:55,
+                 from /usr/local/include/crow/query_string.h:5,
+                 from /usr/local/include/crow.h:2,
+                 from app/../main.h:3,
+                 from app/controller.cpp:1:
+/usr/include/time.h:75:15: note: declared here
+   75 | extern time_t time (time_t *__timer) __THROW;
+      |               ^~~~
+app/controller.cpp:23:38: error: request for member 'getString' in 'r', which is of pointer type 'sql::ResultSet*' (maybe you meant to use '->' ?)
+   23 |                     +get_user_link(r.getString("poster"))
+      |                                      ^~~~~~~~~
+app/controller.cpp:25:24: error: request for member 'getString' in 'r', which is of pointer type 'sql::ResultSet*' (maybe you meant to use '->' ?)
+   25 |                     +r.getString("post_time")
+      |                        ^~~~~~~~~
+app/controller.cpp: In function 'void index()':
+app/controller.cpp:29:7: error: expected ';' before 'return'
+   29 |     })
+      |       ^
+      |       ;
+   30 |     return 0;
+      |     ~~~~~~
+In file included from app/controller.cpp:2:
+app/db.h: In function 'sql::ResultSet* db_query(std::string)':
+app/db.h:16:30: warning: control reaches end of non-void function [-Wreturn-type]
+   16 |     catch(sql::SQLException &e){ std::cerr<<"db query failed: "<<e.what()<<std::endl; }
+      |                              ^
+In file included from app/view.cpp:3:
+app/view.cpp: In function 'std::string get_user_link(std::string, int)':
+app/view.cpp:8:12: error: 'validate_username' was not declared in this scope
+    8 |     assert(validate_username(username));
+      |            ^~~~~~~~~~~~~~~~~
+app/view.cpp:9:13: error: 'db_query' was not declared in this scope
+    9 |     auto *r=db_query("SELECT * FROM user_info WHERE username="+username);
+      |             ^~~~~~~~
+app/view.cpp:12:76: error: no matching function for call to 'std::__cxx11::basic_string<char>::basic_string(int&)'
+   12 |     return "<span class=\"uoj-username\" data-rating=\""+std::string(rating)+"\">"+username+"</span>";
+      |                                                                            ^
+In file included from /usr/include/c++/10/string:55,
+                 from app/view.h:3,
+                 from app/view.cpp:1:
+/usr/include/c++/10/bits/basic_string.h:650:2: note: candidate: 'template<class _Tp, class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _Tp&, const _Alloc&) [with _Tp = _Tp; <template-parameter-2-2> = <template-parameter-1-2>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  650 |  basic_string(const _Tp& __t, const _Alloc& __a = _Alloc())
+      |  ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:650:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/10/bits/move.h:57,
+                 from /usr/include/c++/10/bits/stl_pair.h:59,
+                 from /usr/include/c++/10/bits/stl_algobase.h:64,
+                 from /usr/include/c++/10/bits/char_traits.h:39,
+                 from /usr/include/c++/10/string:40,
+                 from app/view.h:3,
+                 from app/view.cpp:1:
+/usr/include/c++/10/type_traits: In substitution of 'template<bool _Cond, class _Tp> using enable_if_t = typename std::enable_if::type [with bool _Cond = false; _Tp = void]':
+/usr/include/c++/10/bits/basic_string.h:117:8:   required by substitution of 'template<class _CharT, class _Traits, class _Alloc> template<class _Tp, class _Res> using _If_sv = std::enable_if_t<std::__and_<std::is_convertible<const _Tp&, std::basic_string_view<_CharT, _Traits> >, std::__not_<std::is_convertible<const _Tp*, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>*> >, std::__not_<std::is_convertible<const _Tp&, const _CharT*> > >::value, _Res> [with _Tp = int; _Res = void; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+/usr/include/c++/10/bits/basic_string.h:648:30:   required from here
+/usr/include/c++/10/type_traits:2554:11: error: no type named 'type' in 'struct std::enable_if<false, void>'
+ 2554 |     using enable_if_t = typename enable_if<_Cond, _Tp>::type;
+      |           ^~~~~~~~~~~
+In file included from /usr/include/c++/10/string:55,
+                 from app/view.h:3,
+                 from app/view.cpp:1:
+/usr/include/c++/10/bits/basic_string.h:639:2: note: candidate: 'template<class _Tp, class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _Tp&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _Tp = _Tp; <template-parameter-2-2> = <template-parameter-1-2>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  639 |  basic_string(const _Tp& __t, size_type __pos, size_type __n,
+      |  ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:639:2: note:   template argument deduction/substitution failed:
+app/view.cpp:12:76: note:   candidate expects 4 arguments, 1 provided
+   12 |     return "<span class=\"uoj-username\" data-rating=\""+std::string(rating)+"\">"+username+"</span>";
+      |                                                                            ^
+In file included from /usr/include/c++/10/string:55,
+                 from app/view.h:3,
+                 from app/view.cpp:1:
+/usr/include/c++/10/bits/basic_string.h:625:9: note: candidate: 'template<class _InputIterator, class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(_InputIterator, _InputIterator, const _Alloc&) [with _InputIterator = _InputIterator; <template-parameter-2-2> = <template-parameter-1-2>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  625 |         basic_string(_InputIterator __beg, _InputIterator __end,
+      |         ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:625:9: note:   template argument deduction/substitution failed:
+app/view.cpp:12:76: note:   candidate expects 3 arguments, 1 provided
+   12 |     return "<span class=\"uoj-username\" data-rating=\""+std::string(rating)+"\">"+username+"</span>";
+      |                                                                            ^
+In file included from /usr/include/c++/10/string:55,
+                 from app/view.h:3,
+                 from app/view.cpp:1:
+/usr/include/c++/10/bits/basic_string.h:587:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  587 |       basic_string(basic_string&& __str, const _Alloc& __a)
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:587:7: note:   candidate expects 2 arguments, 1 provided
+/usr/include/c++/10/bits/basic_string.h:583:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  583 |       basic_string(const basic_string& __str, const _Alloc& __a)
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:583:7: note:   candidate expects 2 arguments, 1 provided
+/usr/include/c++/10/bits/basic_string.h:579:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::initializer_list<_Tp>, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  579 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:579:45: note:   no known conversion for argument 1 from 'int' to 'std::initializer_list<char>'
+  579 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+/usr/include/c++/10/bits/basic_string.h:552:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  552 |       basic_string(basic_string&& __str) noexcept
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:552:35: note:   no known conversion for argument 1 from 'int' to 'std::__cxx11::basic_string<char>&&'
+  552 |       basic_string(basic_string&& __str) noexcept
+      |                    ~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/10/bits/basic_string.h:540:7: note: candidate: 'template<class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, _CharT, const _Alloc&) [with <template-parameter-2-1> = <template-parameter-1-1>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  540 |       basic_string(size_type __n, _CharT __c, const _Alloc& __a = _Alloc())
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:540:7: note:   template argument deduction/substitution failed:
+app/view.cpp:12:76: note:   candidate expects 3 arguments, 1 provided
+   12 |     return "<span class=\"uoj-username\" data-rating=\""+std::string(rating)+"\">"+username+"</span>";
+      |                                                                            ^
+In file included from /usr/include/c++/10/string:55,
+                 from app/view.h:3,
+                 from app/view.cpp:1:
+/usr/include/c++/10/bits/basic_string.h:525:7: note: candidate: 'template<class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with <template-parameter-2-1> = <template-parameter-1-1>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  525 |       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:525:7: note:   template argument deduction/substitution failed:
+app/view.cpp:12:70: note:   cannot convert 'rating' (type 'int') to type 'const char*'
+   12 |     return "<span class=\"uoj-username\" data-rating=\""+std::string(rating)+"\">"+username+"</span>";
+      |                                                                      ^~~~~~
+In file included from /usr/include/c++/10/string:55,
+                 from app/view.h:3,
+                 from app/view.cpp:1:
+/usr/include/c++/10/bits/basic_string.h:510:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]'
+  510 |       basic_string(const _CharT* __s, size_type __n,
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:510:7: note:   candidate expects 3 arguments, 1 provided
+/usr/include/c++/10/bits/basic_string.h:492:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]'
+  492 |       basic_string(const basic_string& __str, size_type __pos,
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:492:7: note:   candidate expects 4 arguments, 1 provided
+/usr/include/c++/10/bits/basic_string.h:476:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]'
+  476 |       basic_string(const basic_string& __str, size_type __pos,
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:476:7: note:   candidate expects 3 arguments, 1 provided
+/usr/include/c++/10/bits/basic_string.h:461:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]'
+  461 |       basic_string(const basic_string& __str, size_type __pos,
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:461:7: note:   candidate expects 3 arguments, 1 provided
+/usr/include/c++/10/bits/basic_string.h:448:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  448 |       basic_string(const basic_string& __str)
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:448:40: note:   no known conversion for argument 1 from 'int' to 'const std::__cxx11::basic_string<char>&'
+  448 |       basic_string(const basic_string& __str)
+      |                    ~~~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/10/bits/basic_string.h:440:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  440 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:440:34: note:   no known conversion for argument 1 from 'int' to 'const std::allocator<char>&'
+  440 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
+      |                    ~~~~~~~~~~~~~~^~~
+/usr/include/c++/10/bits/basic_string.h:431:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string() [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  431 |       basic_string()
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:431:7: note:   candidate expects 0 arguments, 1 provided
+/usr/include/c++/10/bits/basic_string.h:145:7: note: candidate: 'std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::__sv_wrapper, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]'
+  145 |       basic_string(__sv_wrapper __svw, const _Alloc& __a)
+      |       ^~~~~~~~~~~~
+/usr/include/c++/10/bits/basic_string.h:145:7: note:   candidate expects 2 arguments, 1 provided
+make: *** [makefile:10: main] Error 1

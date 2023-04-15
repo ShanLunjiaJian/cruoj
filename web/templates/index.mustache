@@ -1,0 +1,35 @@
+{{> include/page_header.mustache}}
+<div class="card card-default">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-sm-12 col-md-9">
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th style="width:60%">{{ANNOUNCEMENTS}}</th>
+							<th style="width:20%"></th>
+							<th style="width:20%"></th>
+						</tr>
+					</thead>
+				  	<tbody>
+                    {{important_blogs}}
+						<tr><td class="text-right" colspan="233"><a href="/announcements">{{ALL_THE_ANNOUNCEMENTS}}</a></td></tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-xs-6 col-sm-4 col-md-3">
+				<img class="media-object img-thumbnail" src="/static/images/logo.png" alt="Logo" />
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 mt-4">
+		<h3>{{TOP_RATED}}</h3>
+		{{ranklist}}
+		<div class="text-center">
+			<a href="/ranklist">{{VIEW_ALL}}</a>
+		</div>
+	</div>
+</div>
+{{> include/page_footer.mustache}}

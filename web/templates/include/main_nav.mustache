@@ -1,0 +1,42 @@
+<div class="navbar navbar-light navbar-expand-md bg-light mb-4" role="navigation">
+	<a class="navbar-brand" href="/">{{OJ_NAME_SHORT}}</a>
+	<button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="nav navbar-nav mr-auto">
+			<li class="nav-item"><a class="nav-link" href="/contests"><span class="glyphicon glyphicon-hand-down"></span>{{CONTESTS}}</a></li>
+			<li class="nav-item"><a class="nav-link" href="/problems"><span class="glyphicon glyphicon-hand-right"></span>{{PROBLEMS}}</a></li>
+			<li class="nav-item"><a class="nav-link" href="/submissions"><span class="glyphicon glyphicon-hand-up"></span>{{SUBMISSIONS}}</a></li>
+			<li class="nav-item"><a class="nav-link" href="/hacks"><span class="glyphicon glyphicon-hand-down"></span>{{HACKS}}</a></li>
+			<li class="nav-item"><a class="nav-link" href="/blogs"><span class="glyphicon glyphicon-hand-left"></span>{{BLOGS}}</a></li>
+			<li class="nav-item"><a class="nav-link" href="/faq"><span class="glyphicon glyphicon-hand-right"></span>{{HELP}}</a></li>
+		</ul>
+		<form id="form-search-problem" class="form-inline my-2 my-lg-0" method="get">
+			 <div class="input-group">
+				<input type="text" class="form-control" name="search" id="input-search" placeholder="{{SEARCH}}" />  
+				<div class="input-group-append">
+					<button type="submit" class="btn btn-search btn-outline-primary" id="submit-search"><span class="glyphicon glyphicon-search"></span></button>
+				</div>
+			</div>
+		</form>
+	</div><!--/.nav-collapse -->
+</div>
+<script type="text/javascript">
+	var zan_link = '';
+	$('#form-search-problem').submit(function(e) {
+		e.preventDefault();
+		
+		url = 'problems';
+		qs = [];
+		$(['search']).each(function () {
+			if ($('#input-' + this).val()) {
+				qs.push(this + '=' + encodeURIComponent($('#input-' + this).val()));
+			}
+		});
+		if (qs.length > 0) {
+			url += '?' + qs.join('&');
+		}
+		location.href = url;
+	});
+</script>

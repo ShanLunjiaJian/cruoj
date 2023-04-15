@@ -1,0 +1,150 @@
+{{> include/page_header.mustache}}
+    <div class="card border-info">
+        <h5 class="card-header bg-info">{{USER_PROFILE}}</h5>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-4 order-md-9">
+                    <img class="media-object img-thumbnail d-block mx-auto" alt="{{username}} Avatar" src="{{avatar}}" />
+                </div>
+                <div class="col-md-8 order-md-1">
+                    <h2><span class="uoj-honor" data-rating="{{rating}}">{{username}}</span></h2><span><strong>{{gender}}</strong></span>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">{{RATING}}</h4>
+                            <p class="list-group-item-text"><strong style="color:red">{{rating}}</strong></p>
+                        </div>
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">{{EMAIL}}</h4>
+                            <p class="list-group-item-text">{{email}}</p>
+                        </div>
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">{{QQ}}</h4>
+                            <p class="list-group-item-text">{{qq}}</p>
+                        </div>
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">{{MOTTO}}</h4>
+                            <p class="list-group-item-text">{{motto}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{operation}}
+            <a type="button" class="btn btn-success btn-sm" href="/blog/{{username}}"><span class="glyphicon glyphicon-arrow-right"></span>{{VISIT_HIS_BLOG}}</a>
+            
+            <div class="top-buffer-lg"></div>
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h4 class="list-group-item-heading">{{RATING_CHANGES}}</h4>
+                    <div class="list-group-item-text" id="rating-plot" style="height:500px;"></div>
+                </div>
+                <div class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ACCEPTED_PROBLEMS}}: {{N_PROBLEMS_IN_TOTAL}}</h4>
+                    <p class="list-group-item-text">
+                    {{#ac_problems}}
+                        <a href="/problem/{{problem_id}}" style="display:inline-block; width:4em;">{{problem_id}}</a>
+                    {{/ac_problems}}
+                    {{^ac_problems}}
+                        {{NONE}}
+                    {{/ac_problems}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+var rating_data = [[{{{rating_data}}}]];
+var rating_plot = $.plot($("#rating-plot"), [{
+    color: "#3850eb",
+    label: "{{username}}",
+    data: rating_data[0]
+}], {
+    series: {
+        lines: {
+            show: true
+        },
+        points: {
+            show: true
+        }
+    },
+    xaxis: {
+        mode: "time"
+    },
+    yaxis: {
+        min: {{rating_min}},
+        max: {{rating_max}}
+    },
+    legend: {
+        labelFormatter: function(username) {
+            return getUserLink(username, {{rating}}, false);
+        }
+    },
+    grid: {
+        clickable: true,
+        hoverable: true
+    },
+    hooks: {
+        drawBackground: [
+            function(plot, ctx) {
+                var plotOffset = plot.getPlotOffset();
+                for (var y = 0; y < plot.height(); y++) {
+                    var rating = {{rating_max}} - ({{rating_max}}-{{rating_min}}) * y / plot.height();
+                    ctx.fillStyle = getColOfRating(rating);
+                    ctx.fillRect(plotOffset.left, plotOffset.top + y, plot.width(), Math.min(5, plot.height() - y));
+                }
+            }
+        ]
+    }
+});
+
+function showTooltip(x, y, contents) {
+    $('<div id="rating-tooltip">' + contents + '</div>').css({
+        position: 'absolute',
+        display: 'none',
+        top: y - 20,
+        left: x + 10,
+        border: '1px solid #fdd',
+        padding: '2px',
+        'font-size' : '11px',
+        'background-color': '#fee',
+        opacity: 0.80
+    }).appendTo("body").fadeIn(200);
+}
+
+var prev = -1;
+function onHoverRating(event, pos, item) {
+    if (prev != item.dataIndex) {
+        $("#rating-tooltip").remove();
+        var params = rating_data[item.seriesIndex][item.dataIndex];
+
+        var total = params[1];
+        var contestId = params[2];
+        if (contestId != 0) {
+            var change = params[5] > 0 ? "+" + params[5] : params[5];
+            var contestName = params[3];
+            var rank = params[4];
+            var html = "= " + total + " (" + change + "), <br/>"
+            + "Rank: " + rank + "<br/>"
+            + '<a href="' + '/contest/' + contestId + '">' + contestName + '</a>';
+        } else {
+            var html = "= " + total + "<br/>"
+            + "Unrated";
+        }
+        showTooltip(item.pageX, item.pageY, html);
+        prev = item.dataIndex;
+    }
+}
+$("#rating-plot").bind("plothover", function (event, pos, item) {
+    if (item) {
+        onHoverRating(event, pos, item);
+    }
+});
+$("#rating-plot").bind("plotclick", function (event, pos, item) {
+    if (item && prev == -1) {
+        onHoverRating(event, pos, item);
+    } else {
+        $("#rating-tooltip").fadeOut(200);
+        prev = -1;
+    }
+});
+</script>
+{{> include/page_footer.mustache}}
